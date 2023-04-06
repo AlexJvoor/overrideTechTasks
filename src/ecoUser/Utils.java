@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Utils {
-    public static String readFile(File file) {
+    public static ArrayList<User> readFile(File file) {
         StringBuilder sb = new StringBuilder();
         try (FileInputStream fis = new FileInputStream(file)) {
             int tmp;
@@ -14,14 +14,17 @@ public class Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return sb.toString();
+        String[] userStrings = sb.toString().split("\r\n");
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 1; i < userStrings.length; i++) {
+            users.add(new User(userStrings[i]));
+        }
+        return users;
     }
 
-    public static ArrayList<User> processData(String data, int maxResourceUse) {
-        String[] persons = data.split("\r\n");
-        ArrayList<User> ecoUsers= new ArrayList<>();
-        for (int i = 1; i < persons.length; i++) {
-            User user = new User(persons[i]);
+    public static ArrayList<User> processData(ArrayList<User> users, int maxResourceUse) {
+        ArrayList<User> ecoUsers = new ArrayList<>();
+        for (User user : users) {
             if (user.isEco(maxResourceUse)) {
                 ecoUsers.add(user);
             }
