@@ -3,7 +3,6 @@ package ecoUser;
 import java.io.*;
 
 public class DataFile {
-
     public static String readFile(File file) {
         StringBuilder sb = new StringBuilder();
         try (FileInputStream fis = new FileInputStream(file)) {
