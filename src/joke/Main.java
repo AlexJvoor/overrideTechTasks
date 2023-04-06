@@ -19,31 +19,19 @@ public class Main {
         }
     }
 
-    static boolean isSubDirs(File file) { //TODO refactor
-        try {
-            return file.listFiles(File::isDirectory).length != 0;
-        } catch (NullPointerException e) {
-            return false;
-        }
-    }
-
-    static void iterFileList(File[] list) {
-        for (File file : list) {
-            if(isSubDirs(file)) {
-                iterFileList(dirsList(file));
+    static void jokeIter(File file) {
+        createJokeFileToPath(file);
+        String[] subFileNames = file.list();
+        File subFile;
+        for (String subFileName : subFileNames) {
+            if ((subFile = new File(file.getPath() + '/' + subFileName)).isDirectory()) {
+                jokeIter(subFile);
             }
-            createJokeFileToPath(file);
         }
-    }
-
-    static File[] dirsList(File file) {
-        File[] dirs = file.listFiles(File::isDirectory);
-        return dirs;
     }
 
     public static void main(String[] args) {
         File file = new File(args[0]);
-        File[] mainList = dirsList(file);
-        iterFileList(mainList);
+        jokeIter(file);
     }
 }
