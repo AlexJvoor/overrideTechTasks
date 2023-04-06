@@ -14,11 +14,11 @@ public class Main {
         return sb.toString().split("\r\n");
     }
 
-    public static void processFile(File data, int maxResourceUse) {
+    public static void processData(File data, int maxResourceUse) {
         try {
             String[] persons = readWholeFileToStrings(data);
-            File resultFile = new File(data.getParentFile().getPath() + "/result.csv");
-            FileOutputStream fos = new FileOutputStream(resultFile);
+            FileOutputStream fos = new FileOutputStream(data.getParentFile().getPath() +
+                    "/result_" + maxResourceUse + ".csv");
             fos.write((persons[0] + '\n').getBytes());
             User user = new User();
             for (int i = 1; i < persons.length; i++) {
@@ -32,9 +32,9 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) { //TODO REFACTOR
+    public static void main(String[] args) {
         File data = new File(args[0]);
         int maxResourceUse = Integer.parseInt(args[1]);
-        processFile(data, maxResourceUse);
+        processData(data, maxResourceUse);
     }
 }
