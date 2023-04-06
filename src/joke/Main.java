@@ -1,12 +1,13 @@
 package joke;
 
 import java.io.*;
+import java.nio.file.Files;
 
 public class Main {
     static void createJokeFileToPath(File dir) {
         try {
-            File file = new File(dir.getAbsolutePath() + "/joke.java");
-            OutputStream outputStream = new FileOutputStream(file);
+            OutputStream outputStream = Files.newOutputStream(
+                    new File(dir.getAbsolutePath() + "/joke.java").toPath());
             String joke = ("\n" +
                     "class Joke {\n" +
                     "    public static void main(String[] args) {\n" +
