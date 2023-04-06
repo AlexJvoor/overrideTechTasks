@@ -15,8 +15,9 @@ public class Main {
                     "    }\n" +
                     "}\n");
             outputStream.write(joke.getBytes());
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Error by creating file\n");
+            e.printStackTrace();
         }
     }
 
