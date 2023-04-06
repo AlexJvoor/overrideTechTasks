@@ -1,8 +1,9 @@
 package ecoUser;
 
 import java.io.*;
+import java.util.ArrayList;
 
-public class DataFile {
+public class Utils {
     public static String readFile(File file) {
         StringBuilder sb = new StringBuilder();
         try (FileInputStream fis = new FileInputStream(file)) {
@@ -16,24 +17,28 @@ public class DataFile {
         return sb.toString();
     }
 
-    public static String processData(String data, int maxResourceUse) {
+    public static ArrayList<User> processData(String data, int maxResourceUse) {
         String[] persons = data.split("\r\n");
-        StringBuilder sb = new StringBuilder();
-        sb.append(persons[0]).append('\n');
+        ArrayList<User> ecoUsers= new ArrayList<>();
         for (int i = 1; i < persons.length; i++) {
             User user = new User(persons[i]);
             if (user.isEco(maxResourceUse)) {
-                sb.append(persons[i]).append('\n');
+                ecoUsers.add(user);
             }
         }
-        return sb.toString();
+        return ecoUsers;
     }
 
-    public static void saveDataToDir(File dir, String data) {
+    public static void saveDataToDir(File dir, ArrayList<User> ecoUsers) {
+        String header = "id|name|waterCount|gasCount1|gasCount2|electroCount1|electroCount2\n";
         try {
             FileOutputStream fos = new FileOutputStream(dir.getPath() +
                     "/result.csv");
-            fos.write(data.getBytes());
+            fos.write(header.getBytes());
+            for (User ecoUser : ecoUsers) {
+                fos.write(ecoUser.toString().getBytes());
+            }
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

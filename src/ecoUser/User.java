@@ -23,13 +23,13 @@ public class User implements Serializable {
     }
 
     public String toString() {
-        return id + "\\|" +
-                name + "\\|" +
-                waterCount + "\\|" +
-                gasCount1 + "\\|" +
-                gasCount2 + "\\|" +
-                electroCount1 + "\\|" +
-                electroCount2;
+        return id + "|" +
+                name + "|" +
+                waterCount + "|" +
+                gasCount1 + "|" +
+                gasCount2 + "|" +
+                electroCount1 + "|" +
+                electroCount2 + "\n";
     }
 
     public boolean isEco(int maxValue) {
