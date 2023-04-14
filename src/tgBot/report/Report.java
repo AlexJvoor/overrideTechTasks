@@ -40,12 +40,11 @@ public class Report {
     }
 
     public String reportHistory(List<Report> reports, String studentUserName, int count) {
-        String filteredReports = reports.stream()
+        return reports.stream()
                 .filter(r -> r.getStudentUserName().equals(studentUserName))
                 .limit(count)
                 .sorted(Comparator.comparing(Report::getDate))
                 .map(rep -> rep.outputString())
-                .collect(Collectors.joining("-----------------"));
-        return filteredReports;
+                .collect(Collectors.joining("-----------------");
     }
 }
