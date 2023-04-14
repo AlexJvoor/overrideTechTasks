@@ -3,7 +3,6 @@ package tgBot.report;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Report {
@@ -17,29 +16,36 @@ public class Report {
 
     private String title;
 
+    public Report(Long id, String studentUserName, Integer hours, LocalDate date, String title) {
+        this.id = id;
+        this.studentUserName = studentUserName;
+        this.hours = hours;
+        this.date = date;
+        this.title = title;
+    }
+
     public String getStudentUserName() {
         return studentUserName;
     }
 
-    public Integer getHours() {
-        return hours;
-    }
-
-    public LocalDate getLocalDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public String getTitle() {
-        return title;
+    public String outputString() {
+        return studentUserName + "\n" +
+                date + "\n" +
+                hours + "\n" +
+                title + "\n";
     }
 
     public String reportHistory(List<Report> reports, String studentUserName, int count) {
-        Predicate<Report> predicate = r -> r.getStudentUserName().equals(studentUserName);
-        Comparator<Report> comparator = Comparator.comparing(Report::getLocalDate);
-        List<Report> lastNReports = reports.stream().filter(predicate)
-                .limit(count).sorted(comparator)
-                .collect(Collectors.toList());
-        ReportFormatter reportFormatter = new ReportFormatter();
-        return reportFormatter.reportFormatter(lastNReports);
+        String filteredReports = reports.stream()
+                .filter(r -> r.getStudentUserName().equals(studentUserName))
+                .limit(count)
+                .sorted(Comparator.comparing(Report::getDate))
+                .map(rep -> rep.outputString())
+                .collect(Collectors.joining("-----------------"));
+        return filteredReports;
     }
 }
