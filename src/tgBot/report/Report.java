@@ -45,6 +45,6 @@ public class Report {
                 .limit(count)
                 .sorted(Comparator.comparing(Report::getDate))
                 .map(rep -> rep.outputString())
-                .collect(Collectors.joining("-----------------");
+                .collect(Collectors.joining("-----------------"));
     }
 }
